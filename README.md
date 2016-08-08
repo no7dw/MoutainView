@@ -26,3 +26,11 @@
 ### how many clients?
 use consul
 
+### run
+
+start up some clients 
+check clients health
+run server.js to post client run command argv
+check clients health and progress
+
+

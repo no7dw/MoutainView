@@ -14,12 +14,14 @@ exports.progress = function * (){
 exports.heartbeat = function * (){
     console.log("heartbeat", this.request.body)
     let body = RES.body
+    body.msg = "I'm healthy"
     return this.body = body
 }
 
 exports.run = function * (){
     console.log("run", this.request.body)
     let body = RES.body
+    body.msg = "run success"
     return this.body = body
 }
 

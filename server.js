@@ -2,31 +2,37 @@
 
 var schedule = require('node-schedule');
 const rp = require('request-promise')
-const clientPort = 8001
+
+const clientPort = 8001 //start port
 
 // @path example: '/path'
 // @body json
-var runClient = function(path, method ,body) {
+var runClient = function(port, path, method ,body) {
     var options = {
         method: method,
-        uri: 'http://localhost:'+ clientPort +  path,
+        uri: 'http://localhost:'+ port +  path,
         json: true
     };
     rp(options)
         .then(function (body) {
-            console.log("client: %d body: %s", clientPort , JSON.stringify(body))
+            console.log("client: %d body: %s", port , JSON.stringify(body))
         })
         .catch(function (err) {
             console.log("failed", err)
         });
     }
-runClient('/r', 'POST' , {argv:3000})
 
 var rule = new schedule.RecurrenceRule()
 rule.second = 1
 schedule.scheduleJob(rule,function(){
-  runClient('/h', 'GET' , {})
-  //console.log('The answer to life, the universe, and everything!', new Date());
+    for(let portn = clientPort; portn < clientPort+4; portn++){
+      runClient( portn, '/p', 'GET' , {})
+      runClient( portn,'/h', 'GET' , {})
+    } 
 })
 
-runClient('/h', 'GET' , {})
+for(let portn = clientPort; portn < clientPort+4; portn++){
+    runClient( portn, '/h', 'GET' , {})
+    runClient( portn, '/r', 'POST' , {argv:3000})
+    runClient( portn, '/p', 'GET' , {})
+}

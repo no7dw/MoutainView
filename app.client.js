@@ -7,7 +7,7 @@ const logger = require('./lib/logger').logger
 const clientConf = require('./client.conf')
 const bodyparser = require('koa-bodyparser')
 
-const port = 8001
+const port = parseInt(process.argv[2]) || 8001
 
 app.use(logger)
 app.use(bodyparser())
